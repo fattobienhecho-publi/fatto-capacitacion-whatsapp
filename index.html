@@ -59,6 +59,21 @@
         <button class="agenda-pill" data-target="test">Test</button>
       </section>
 
+      <aside class="module-map" aria-label="Avance de la capacitación">
+        <strong>Avance</strong>
+        <span id="moduleProgress">1/10</span>
+        <a class="module-link active" href="#agenda">Agenda</a>
+        <a class="module-link" href="#errores">Errores</a>
+        <a class="module-link" href="#metodo">Método</a>
+        <a class="module-link" href="#ofertas">Ejemplos</a>
+        <a class="module-link" href="#fuera-oferta">Otros productos</a>
+        <a class="module-link" href="#diseno">Diseño</a>
+        <a class="module-link" href="#envio">Envío</a>
+        <a class="module-link" href="#role-plays">Role play</a>
+        <a class="module-link" href="#checklist">Checklist</a>
+        <a class="module-link" href="#test">Test</a>
+      </aside>
+
       <section class="section" id="agenda">
         <div class="section-heading">
           <p class="eyebrow">3. Agenda</p>
@@ -81,8 +96,8 @@
           <h2>Errores que están matando las ventas</h2>
           <p class="module-note">Versión final aprobable</p>
           <p>
-            En cada error puedes subir imágenes de ejemplos reales para trabajarlas durante la
-            capacitación.
+            Revisa los errores base y usa el carrusel de ejemplos reales para analizarlos durante
+            la capacitación.
           </p>
         </div>
 
@@ -113,13 +128,6 @@
                 </div>
               </div>
             </div>
-            <div class="upload-box">
-              <label>
-                Subir imágenes de ejemplos reales
-                <input type="file" accept="image/*" multiple />
-              </label>
-              <div class="preview-grid" aria-live="polite"></div>
-            </div>
           </article>
 
           <article class="error-card" data-error-id="error2">
@@ -149,13 +157,6 @@
                 </div>
               </div>
             </div>
-            <div class="upload-box">
-              <label>
-                Subir imágenes de ejemplos reales
-                <input type="file" accept="image/*" multiple />
-              </label>
-              <div class="preview-grid" aria-live="polite"></div>
-            </div>
           </article>
 
           <article class="error-card" data-error-id="error3">
@@ -182,13 +183,6 @@
                   ¿Te parece bien este diseño para enviarlo a impresión?
                 </div>
               </div>
-            </div>
-            <div class="upload-box">
-              <label>
-                Subir imágenes de ejemplos reales
-                <input type="file" accept="image/*" multiple />
-              </label>
-              <div class="preview-grid" aria-live="polite"></div>
             </div>
           </article>
 
@@ -226,15 +220,66 @@
                 </button>
               </div>
             </div>
-            <div class="upload-box">
-              <label>
-                Subir imágenes de ejemplos reales
-                <input type="file" accept="image/*" multiple />
-              </label>
-              <div class="preview-grid" aria-live="polite"></div>
-            </div>
           </article>
         </div>
+
+        <article class="content-card example-lab" id="exampleLab">
+          <div class="lab-header">
+            <div>
+              <p class="eyebrow">Carrusel de casos reales</p>
+              <h3>Subir ejemplos para analizar en capacitación</h3>
+              <p>
+                Carga capturas de conversaciones, clasifícalas y escribe qué debe aprender el
+                vendedor de cada caso.
+              </p>
+            </div>
+            <label class="example-upload">
+              Subir capturas
+              <input id="exampleImages" type="file" accept="image/*" multiple />
+            </label>
+          </div>
+
+          <div class="lab-form">
+            <label>
+              Tipo de ejemplo
+              <select id="exampleType">
+                <option value="No responde directo">No responde directo</option>
+                <option value="Da demasiadas vueltas">Da demasiadas vueltas</option>
+                <option value="No cierra diseño">No cierra diseño</option>
+                <option value="Explica sin preguntar">Explica sin preguntar</option>
+                <option value="Envío y pago">Envío y pago</option>
+                <option value="Buen ejemplo">Buen ejemplo</option>
+              </select>
+            </label>
+            <label>
+              Nota para la capacitación
+              <input
+                id="exampleNote"
+                type="text"
+                placeholder="Ejemplo: responder precio primero y luego preguntar intención"
+              />
+            </label>
+          </div>
+
+          <div class="carousel-shell" aria-live="polite">
+            <button class="carousel-control" id="prevExample" type="button" aria-label="Ejemplo anterior">
+              ‹
+            </button>
+            <figure class="example-slide" id="exampleSlide">
+              <div class="empty-slide">
+                <strong>Aún no hay ejemplos cargados.</strong>
+                <span>Sube capturas para crear el carrusel de análisis.</span>
+              </div>
+            </figure>
+            <button class="carousel-control" id="nextExample" type="button" aria-label="Ejemplo siguiente">
+              ›
+            </button>
+          </div>
+          <div class="carousel-footer">
+            <span id="exampleCounter">0/0</span>
+            <button class="copy-button" id="removeExample" type="button">Quitar ejemplo actual</button>
+          </div>
+        </article>
       </section>
 
       <section class="section dark" id="metodo">
@@ -896,7 +941,7 @@
               <span></span>
               <strong>Cliente FATTO</strong>
             </div>
-            <div class="client-message" id="clientMessage"></div>
+            <div class="chat-thread" id="chatThread"></div>
           </div>
 
           <div class="answer-options" id="answerOptions"></div>
@@ -938,6 +983,14 @@
         </div>
 
         <form class="quiz" id="sellerTest">
+          <fieldset class="seller-info">
+            <legend>Datos del vendedor</legend>
+            <label>
+              Nombre
+              <input name="sellerName" type="text" placeholder="Nombre del vendedor" />
+            </label>
+          </fieldset>
+
           <fieldset>
             <legend>1. Si el cliente pregunta “¿Cuánto valen los stickers?”, ¿qué se debe hacer primero?</legend>
             <label><input type="radio" name="q1" value="0" /> Preguntar qué diseño necesita.</label>
@@ -1018,6 +1071,7 @@
           </fieldset>
 
           <button class="button primary" type="submit">Calificar test</button>
+          <button class="button ghost" id="resetTest" type="button">Repetir test</button>
           <div class="quiz-result" id="quizResult" aria-live="polite"></div>
         </form>
       </section>

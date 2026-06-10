@@ -33,6 +33,11 @@ input {
   font: inherit;
 }
 
+select,
+textarea {
+  font: inherit;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
@@ -218,6 +223,47 @@ p {
   padding: 12px clamp(16px, 5vw, 72px);
   background: var(--soft);
   border-block: 1px solid var(--line);
+}
+
+.module-map {
+  position: fixed;
+  right: 18px;
+  top: 142px;
+  z-index: 20;
+  display: grid;
+  gap: 6px;
+  width: 176px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(20, 24, 32, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.module-map strong {
+  color: var(--dark);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.module-map span {
+  color: var(--purple);
+  font-weight: 950;
+}
+
+.module-link {
+  padding: 7px 9px;
+  color: var(--muted);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.module-link.active,
+.module-link:hover {
+  color: #fff;
+  background: var(--purple);
 }
 
 .agenda-pill,
@@ -743,6 +789,157 @@ p {
   font-weight: 900;
 }
 
+.example-lab {
+  margin-top: 24px;
+  overflow: hidden;
+}
+
+.lab-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.lab-header h3 {
+  margin: 0 0 10px;
+  font-size: clamp(1.45rem, 3vw, 2.3rem);
+}
+
+.example-upload {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 12px 16px;
+  color: #fff;
+  background: var(--pink);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 950;
+}
+
+.example-upload input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lab-form {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.38fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.lab-form label,
+.seller-info label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.lab-form select,
+.lab-form input,
+.seller-info input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.carousel-shell {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 46px;
+  gap: 12px;
+  align-items: center;
+}
+
+.carousel-control {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 58px;
+  color: #fff;
+  background: var(--dark);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.example-slide {
+  min-height: 420px;
+  margin: 0;
+  overflow: hidden;
+  background: #f1f5f3;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.example-slide img {
+  display: block;
+  width: 100%;
+  max-height: 540px;
+  object-fit: contain;
+  background: #e9f2eb;
+}
+
+.example-slide figcaption {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+.example-slide figcaption strong {
+  color: var(--pink);
+}
+
+.example-slide figcaption span,
+.example-slide figcaption small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.empty-slide {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  min-height: 420px;
+  padding: 24px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty-slide strong {
+  color: var(--ink);
+  font-size: 1.2rem;
+}
+
+.carousel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.carousel-footer span {
+  color: var(--purple);
+  font-weight: 950;
+}
+
 .callout {
   background: #fff9eb;
   border: 1px solid rgba(248, 170, 0, 0.28);
@@ -1116,6 +1313,16 @@ p {
   box-shadow: 0 10px 30px rgba(20, 24, 32, 0.05);
 }
 
+.quiz fieldset.answered-ok {
+  border-color: rgba(25, 173, 69, 0.42);
+  background: #f6fff8;
+}
+
+.quiz fieldset.answered-bad {
+  border-color: rgba(236, 28, 98, 0.42);
+  background: #fff7fa;
+}
+
 .quiz legend {
   padding: 0 8px;
   font-weight: 900;
@@ -1128,6 +1335,10 @@ p {
   align-items: flex-start;
   color: #3f4652;
   line-height: 1.45;
+}
+
+.quiz .seller-info label {
+  display: grid;
 }
 
 .quiz input[type="radio"] {
@@ -1147,6 +1358,10 @@ p {
   resize: vertical;
 }
 
+.seller-info input {
+  max-width: 420px;
+}
+
 .quiz-result {
   min-height: 64px;
   padding: 18px;
@@ -1156,6 +1371,13 @@ p {
   border-radius: 8px;
   font-weight: 850;
   line-height: 1.5;
+}
+
+.quiz-result ul {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding-left: 20px;
 }
 
 .score {
@@ -1256,6 +1478,18 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .module-map {
+    display: none;
+  }
+
+  .lab-header {
+    flex-direction: column;
+  }
+
+  .lab-form {
+    grid-template-columns: 1fr;
+  }
+
   .hero {
     min-height: auto;
   }
@@ -1294,8 +1528,14 @@ p {
   .comparison,
   .shipping-flow,
   .checklist,
-  .compact-checklist {
+  .compact-checklist,
+  .carousel-shell {
     grid-template-columns: 1fr;
+  }
+
+  .carousel-control {
+    width: 100%;
+    height: 42px;
   }
 
   .hero-actions .button {
@@ -1500,17 +1740,47 @@ body {
   border-radius: 50%;
 }
 
-.client-message {
+.chat-thread {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-height: 300px;
+  max-height: 430px;
+  overflow-y: auto;
+  padding: 20px;
+  background:
+    linear-gradient(rgba(239, 247, 241, 0.92), rgba(239, 247, 241, 0.92)),
+    repeating-linear-gradient(45deg, transparent 0 12px, rgba(255, 255, 255, 0.5) 12px 13px);
+}
+
+.chat-bubble {
+  display: grid;
+  gap: 4px;
   width: fit-content;
-  max-width: min(640px, 90%);
-  margin: 22px;
-  padding: 14px 16px;
+  max-width: min(680px, 88%);
+  padding: 12px 14px;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(20, 24, 32, 0.08);
+  line-height: 1.45;
+}
+
+.chat-bubble span {
+  font-size: 0.72rem;
+  font-weight: 950;
+  opacity: 0.72;
+  text-transform: uppercase;
+}
+
+.chat-bubble.customer {
+  justify-self: start;
   color: var(--ink);
   background: #fff;
-  border-radius: 8px;
-  font-weight: 780;
-  line-height: 1.45;
-  box-shadow: 0 8px 18px rgba(20, 24, 32, 0.08);
+}
+
+.chat-bubble.seller {
+  justify-self: end;
+  color: #fff;
+  background: var(--green);
 }
 
 .answer-options {
@@ -1548,6 +1818,12 @@ body {
 
 .answer-option:disabled {
   cursor: default;
+}
+
+#nextScenario:disabled,
+.copy-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .game-feedback {

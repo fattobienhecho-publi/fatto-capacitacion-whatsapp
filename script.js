@@ -3,171 +3,91 @@ const scoreNumber = document.querySelector("#scoreNumber");
 const scoreBar = document.querySelector("#scoreBar");
 const sellerTest = document.querySelector("#sellerTest");
 const quizResult = document.querySelector("#quizResult");
-const clientMessage = document.querySelector("#clientMessage");
+const chatThread = document.querySelector("#chatThread");
 const answerOptions = document.querySelector("#answerOptions");
 const gameFeedback = document.querySelector("#gameFeedback");
 const gameScore = document.querySelector("#gameScore");
 const nextScenario = document.querySelector("#nextScenario");
+const moduleProgress = document.querySelector("#moduleProgress");
+const exampleImages = document.querySelector("#exampleImages");
+const exampleType = document.querySelector("#exampleType");
+const exampleNote = document.querySelector("#exampleNote");
+const exampleSlide = document.querySelector("#exampleSlide");
+const exampleCounter = document.querySelector("#exampleCounter");
+const prevExample = document.querySelector("#prevExample");
+const nextExample = document.querySelector("#nextExample");
+const removeExample = document.querySelector("#removeExample");
+const resetTest = document.querySelector("#resetTest");
+
+const moduleIds = [
+  "agenda",
+  "errores",
+  "metodo",
+  "ofertas",
+  "fuera-oferta",
+  "diseno",
+  "envio",
+  "role-plays",
+  "checklist",
+  "test",
+];
 
 const roleScenarios = [
   {
-    client: "Hola, ¿cuánto valen los stickers?",
-    options: [
-      {
-        text: "Los 200 stickers están en 35.000. ¿Para qué los necesitas? Así te recomiendo el material.",
-        correct: true,
-        feedback: "Correcto: responde directo el precio y luego diagnostica con una pregunta útil.",
-      },
-      {
-        text: "Cuéntame qué tipo de stickers necesitas y miramos.",
-        correct: false,
-        feedback: "No es la mejor: el cliente preguntó precio y todavía no recibió respuesta.",
-      },
-      {
-        text: "Manejamos vinilo, mate, brillante y varios tamaños.",
-        correct: false,
-        feedback: "Da demasiadas vueltas. Primero responde directo.",
-      },
-    ],
-  },
-  {
-    client: "¿Hacen volantes?",
-    options: [
-      {
-        text: "Sí, los hacemos. ¿Para qué campaña los necesitas?",
-        correct: true,
-        feedback: "Correcto: confirma que sí se hace y diagnostica sin enredar.",
-      },
-      {
-        text: "Sí, manejamos varios gramajes, tamaños y papel couché.",
-        correct: false,
-        feedback: "Todavía no preguntaste para qué los necesita. Es explicar sin diagnosticar.",
-      },
-      {
-        text: "Depende, mándame todo lo que tengas.",
-        correct: false,
-        feedback: "Muy abierto. El vendedor debe guiar con una pregunta corta.",
-      },
-    ],
-  },
-  {
-    client: "Me gusta el diseño.",
-    options: [
-      {
-        text: "Si te gusta esta versión, preparo la orden.",
-        correct: true,
-        feedback: "Correcto: convierte aprobación en cierre.",
-      },
-      {
-        text: "Perfecto, cualquier cosa me avisas.",
-        correct: false,
-        feedback: "Se pierde el cierre. Hay que avanzar a la orden.",
-      },
-      {
-        text: "Bueno, entonces te mando más opciones.",
-        correct: false,
-        feedback: "Si ya le gusta, no abras más vueltas: cierra.",
-      },
-    ],
-  },
-  {
-    client: "El envío está caro.",
-    options: [
-      {
-        text: "Sí, en productos económicos pasa mucho. Si lo haces anticipado, te queda más económico porque no te cobran el recaudo.",
-        correct: true,
-        feedback: "Correcto: valida la objeción y muestra una opción concreta.",
-      },
-      {
-        text: "Ese es el precio del envío, no puedo hacer nada.",
-        correct: false,
-        feedback: "Corta la venta. El método propone explicar y dar opciones.",
-      },
-      {
-        text: "Entonces mejor compra más cosas.",
-        correct: false,
-        feedback: "La idea puede ser completar envío gratis, pero debe decirse con cuidado y con opción.",
-      },
-    ],
-  },
-  {
-    client: "Listo, lo hago anticipado.",
-    options: [
-      {
-        text: "Perfecto, para procesarlo necesito: nombre, dirección y número de contacto.",
-        correct: true,
-        feedback: "Correcto: ya eligió, ahora sí pides datos.",
-      },
-      {
-        text: "¿Estás seguro? También existe contra entrega.",
-        correct: false,
-        feedback: "Ya decidió. No vuelvas a abrir la conversación.",
-      },
-      {
-        text: "Bueno, espera te confirmo si se puede.",
-        correct: false,
-        feedback: "Pierde seguridad. El siguiente paso es procesar la orden.",
-      },
-    ],
-  },
-];
-
-let currentScenario = 0;
-let roleGameScore = 0;
-
-const updatedRoleScenarios = [
-  {
     client: "¿Cuánto valen los stickers?",
+    followup: "Listo, los necesito para marcar unos productos.",
     options: [
       {
         text: "Los 200 stickers están en 35.000. ¿Para qué los necesitas?",
         correct: true,
-        feedback: "Correcto: responde exactamente lo que pregunta y diagnostica con una sola pregunta.",
+        feedback: "Correcto: respondes precio y haces una sola pregunta útil.",
       },
       {
         text: "¿Qué diseño necesitas?",
         correct: false,
-        feedback: "No responde la pregunta concreta. Eso genera desconfianza inmediata.",
+        feedback: "No responde lo que el cliente preguntó. Primero va el precio.",
       },
       {
-        text: "Manejamos muchos materiales y tamaños, depende de lo que quieras.",
+        text: "Manejamos varios materiales y depende de lo que quieras.",
         correct: false,
-        feedback: "Da vueltas. Primero va el precio, luego una pregunta corta.",
+        feedback: "Da vueltas. La respuesta debe ser directa y corta.",
       },
     ],
   },
   {
     client: "¿Hacen pendones?",
+    followup: "Quiero que la gente vea mi negocio desde la calle.",
     options: [
       {
         text: "Sí, claro. ¿Qué quieres lograr con el pendón? ¿Mostrar tus productos, atraer clientes o verte más profesional?",
         correct: true,
-        feedback: "Correcto: confirma directo y usa pregunta de intención del producto.",
+        feedback: "Correcto: confirma directo y diagnostica intención.",
       },
       {
-        text: "Sí, manejamos varias medidas, materiales, estructuras y tipos de impresión.",
+        text: "Sí, manejamos medidas, materiales, estructuras y diferentes tipos de impresión.",
         correct: false,
-        feedback: "Demasiada explicación. El cliente todavía no pidió detalles técnicos.",
+        feedback: "Explica de más antes de entender lo que busca el cliente.",
       },
       {
         text: "¿Lo quieres bonito o sencillo?",
         correct: false,
-        feedback: "Abre una conversación confusa. La pregunta debe guiar intención.",
+        feedback: "La pregunta no guía la venta. Usa intención, no gusto visual.",
       },
     ],
   },
   {
     client: "¿Me puedes mostrar cómo quedaría?",
+    followup: "Sí, se entiende claro.",
     options: [
       {
         text: "Aquí tienes el diseño. Lo trabajamos para que se vea claro, legible y alineado a lo que quieres lograr.",
         correct: true,
-        feedback: "Correcto: envía el diseño con contexto, autoridad y claridad.",
+        feedback: "Correcto: presenta el diseño con autoridad y contexto.",
       },
       {
         text: "Te envío el diseño.",
         correct: false,
-        feedback: "Queda corto. La frase oficial da contexto y evita comentarios innecesarios.",
+        feedback: "Queda frío y sin guía. La frase oficial evita comentarios innecesarios.",
       },
       {
         text: "Míralo y dime qué te parece.",
@@ -178,31 +98,33 @@ const updatedRoleScenarios = [
   },
   {
     client: "Quiero cambiar algo, que se vea más bonito.",
+    followup: "Cambiemos la foto principal por esta otra.",
     options: [
       {
         text: "Super, para hacerlo bien, ¿me confirmas qué parte específica quieres que ajustemos?",
         correct: true,
-        feedback: "Correcto: obliga a concretar y evita cambios ambiguos.",
+        feedback: "Correcto: obligas a concretar el cambio.",
       },
       {
         text: "Listo, le digo al diseñador que lo ponga más bonito.",
         correct: false,
-        feedback: "No sirve: el cambio no es claro y puede abrir caos.",
+        feedback: "No sirve porque el cambio no es específico.",
       },
       {
         text: "¿Qué colores, tipografía y estilo quieres?",
         correct: false,
-        feedback: "Prohibido. Eso lo define el diseñador, no el vendedor.",
+        feedback: "Eso está prohibido: lo define el diseñador.",
       },
     ],
   },
   {
     client: "Ya me gustó el diseño.",
+    followup: "Perfecto, quedo pendiente del envío.",
     options: [
       {
         text: "Perfecto, entonces lo enviamos a impresión.",
         correct: true,
-        feedback: "Correcto: cuando está aprobado, se cierra y se pasa a envío y pago.",
+        feedback: "Correcto: si ya aprobó, se cierra y se pasa a envío y pago.",
       },
       {
         text: "Perfecto, si quieres te hago otra versión.",
@@ -212,208 +134,70 @@ const updatedRoleScenarios = [
       {
         text: "Bueno, cualquier cosa me avisas.",
         correct: false,
-        feedback: "Pierde el cierre. Hay que avanzar a impresión.",
-      },
-    ],
-  },
-  {
-    client: "Necesito volantes para mi negocio.",
-    options: [
-      {
-        text: "¿Qué quieres lograr con los volantes: dar a conocer tu negocio, mostrar precios u ofertas o entregar información rápida?",
-        correct: true,
-        feedback: "Correcto: en volantes se pregunta intención y luego se envían las 3 medidas con precios.",
-      },
-      {
-        text: "¿Qué gramaje quieres y qué tamaño exacto necesitas?",
-        correct: false,
-        feedback: "No es lo recomendado. En volantes la parte técnica se envía con las 3 medidas.",
-      },
-      {
-        text: "Mándame el diseño exacto y los colores que quieres.",
-        correct: false,
-        feedback: "No pidas colores ni diseño exacto. Eso lo define el diseñador.",
-      },
-    ],
-  },
-  {
-    client: "Quiero un menú para mi restaurante.",
-    options: [
-      {
-        text: "¿Qué quieres lograr con tu menú: actualizar precios, hacerlo más claro o cambiar el estilo? ¿Lo quieres en papel o plastificado/rígido?",
-        correct: true,
-        feedback: "Correcto: pregunta intención y una pregunta técnica que el cliente sí entiende.",
-      },
-      {
-        text: "¿Qué tipografía y estilo visual quieres para el menú?",
-        correct: false,
-        feedback: "Eso no lo debe pedir el vendedor. Lo define el diseñador.",
-      },
-      {
-        text: "Los menús pueden tener muchos acabados, gramajes y opciones de laminado.",
-        correct: false,
-        feedback: "Explica de más antes de entender la necesidad.",
-      },
-    ],
-  },
-  {
-    client: "Necesito un aviso grande para mi local.",
-    options: [
-      {
-        text: "¿Tienes una foto del lugar donde lo quieres poner? ¿Qué medida lo necesitas? ¿Es para interior o exterior?",
-        correct: true,
-        feedback: "Correcto: en avisos se piden datos clave; la foto ayuda a definir interior/exterior.",
-      },
-      {
-        text: "¿Qué objetivo quieres lograr con el aviso?",
-        correct: false,
-        feedback: "En avisos no se pregunta objetivo porque todos buscan que los vean y entiendan.",
-      },
-      {
-        text: "¿Qué colores, borde y sombra quieres?",
-        correct: false,
-        feedback: "Prohibido: esos criterios los define el diseñador.",
-      },
-    ],
-  },
-  {
-    client: "Necesito tarjetas o plegables.",
-    options: [
-      {
-        text: "¿Qué medida lo necesitas? ¿Tienes el arte o quieres que lo preparemos? ¿Tienes una foto o referencia de lo que buscas?",
-        correct: true,
-        feedback: "Correcto: en litografía la medida es clave para dar precio exacto.",
-      },
-      {
-        text: "¿Quieres que te haga una propuesta?",
-        correct: false,
-        feedback: "Esa pregunta está prohibida. El vendedor pide lo mínimo y el diseñador define.",
-      },
-      {
-        text: "Primero dime qué tipografía te gusta.",
-        correct: false,
-        feedback: "No se debe pedir tipografía. Eso lo define el diseñador.",
+        feedback: "Pierde el cierre. Hay que avanzar.",
       },
     ],
   },
   {
     client: "¿Cuánto queda con envío?",
+    followup: "Estoy en el norte.",
     options: [
       {
         text: "Perfecto, son _____. ¿En qué zona estás para confirmarte el envío?",
         correct: true,
-        feedback: "Correcto: primero precio, luego zona para confirmar envío.",
+        feedback: "Correcto: precio, zona y luego opciones de pago.",
       },
       {
         text: "El envío depende de tu zona, luego miramos.",
         correct: false,
-        feedback: "Falta ordenar la conversación y avanzar con una pregunta concreta.",
+        feedback: "Falta guiar con una pregunta concreta.",
       },
       {
         text: "Me pasas nombre, dirección y número.",
         correct: false,
-        feedback: "Todavía no eligió cómo pagar. Los datos se piden después.",
-      },
-    ],
-  },
-  {
-    client: "Estoy en el norte.",
-    options: [
-      {
-        text: "Listo, el envío te queda en ____. Tengo dos opciones de pago: contra entrega: producto + envío. Pago anticipado: el envío queda más económico porque no te cobran el recaudo. Si superas los 100.000, el envío queda gratis. ¿Cuál prefieres?",
-        correct: true,
-        feedback: "Correcto: confirma envío, da dos opciones y pregunta cuál prefiere.",
-      },
-      {
-        text: "Perfecto, entonces te cobro contra entrega.",
-        correct: false,
-        feedback: "No debes imponer una opción. Presenta las dos opciones de pago.",
-      },
-      {
-        text: "Entonces mándame los datos.",
-        correct: false,
-        feedback: "Aún falta que el cliente elija cómo pagar.",
-      },
-    ],
-  },
-  {
-    client: "El envío está caro.",
-    options: [
-      {
-        text: "Entiendo, en productos económicos pasa mucho. Si lo haces anticipado, el envío queda más económico porque no te cobran el recaudo.",
-        correct: true,
-        feedback: "Correcto: valida la objeción y explica la opción anticipada.",
-      },
-      {
-        text: "Ese es el precio, no puedo hacer nada.",
-        correct: false,
-        feedback: "Corta la venta. El método propone explicar con calma.",
-      },
-      {
-        text: "Entonces compra más para que sea gratis.",
-        correct: false,
-        feedback: "Puede sonar forzado. Además hay restricciones internas para roll up y araña.",
-      },
-    ],
-  },
-  {
-    client: "Listo, pago anticipado.",
-    options: [
-      {
-        text: "Perfecto. Necesito: nombre, dirección y número.",
-        correct: true,
-        feedback: "Correcto: solo después de que el cliente elige cómo pagar se piden datos.",
-      },
-      {
-        text: "¿Seguro? También puedes pagar contra entrega.",
-        correct: false,
-        feedback: "Ya eligió. No vuelvas a abrir la decisión.",
-      },
-      {
-        text: "Primero dime qué colores quieres para el diseño.",
-        correct: false,
-        feedback: "No corresponde y además colores es algo que define el diseñador.",
+        feedback: "Los datos se piden solo después de elegir cómo pagar.",
       },
     ],
   },
 ];
 
+const quizExplanations = [
+  "Primero se responde la pregunta concreta del cliente.",
+  "El diagnóstico debe ser una sola pregunta corta.",
+  "Para diseño solo se pide logo, foto o referencia e información mínima.",
+  "El vendedor no debe pedir tipografías; eso lo define el diseñador.",
+  "En volantes se envían las 3 medidas y luego se recomienda.",
+  "En avisos se pide foto del lugar, medida e interior/exterior.",
+  "La frase oficial da contexto y autoridad al diseño.",
+  "Cuando el cambio es ambiguo, se pide precisión.",
+  "Si el cliente aprueba, se cierra para impresión.",
+  "Nombre, dirección y número se piden después de que el cliente elige cómo pagar.",
+];
+
+let currentScenario = 0;
+let roleGameScore = 0;
+let examples = getSavedImages("fatto-example-carousel");
+let currentExample = 0;
+
 document.querySelectorAll(".agenda-pill").forEach((button) => {
   button.addEventListener("click", () => {
-    const target = document.querySelector(`#${button.dataset.target}`);
-    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollToModule(button.dataset.target);
+  });
+});
 
-    document.querySelectorAll(".agenda-pill").forEach((pill) => pill.classList.remove("active"));
-    button.classList.add("active");
+document.querySelectorAll(".module-link").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    scrollToModule(link.getAttribute("href").replace("#", ""));
   });
 });
 
 document.addEventListener("click", async (event) => {
   const copyButton = event.target.closest(".copy-button");
-  if (!copyButton) return;
+  if (!copyButton || !copyButton.dataset.copy) return;
 
   await copyText(copyButton.dataset.copy);
   showToast("Respuesta copiada");
-});
-
-document.querySelectorAll(".upload-box input").forEach((input) => {
-  input.addEventListener("change", () => {
-    const card = input.closest(".error-card");
-    const grid = card.querySelector(".preview-grid");
-
-    [...input.files].forEach((file) => {
-      if (!file.type.startsWith("image/")) return;
-
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        addPreview(grid, reader.result);
-        saveImages(card);
-      });
-      reader.readAsDataURL(file);
-    });
-
-    input.value = "";
-  });
 });
 
 document.querySelectorAll(".product-upload input").forEach((input) => {
@@ -436,13 +220,54 @@ document.querySelectorAll(".product-upload input").forEach((input) => {
   });
 });
 
-document.addEventListener("click", (event) => {
-  const removeButton = event.target.closest(".remove-image");
-  if (!removeButton) return;
+exampleImages?.addEventListener("change", () => {
+  const files = [...exampleImages.files].filter((file) => file.type.startsWith("image/"));
+  if (!files.length) return;
 
-  const card = removeButton.closest(".error-card");
-  removeButton.closest(".preview").remove();
-  saveImages(card);
+  let loaded = 0;
+  files.forEach((file) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      examples.push({
+        src: reader.result,
+        type: exampleType.value,
+        note: exampleNote.value.trim() || "Analizar qué respondió el vendedor y cómo debería corregirse.",
+        date: new Date().toLocaleDateString("es-CO"),
+      });
+      loaded += 1;
+
+      if (loaded === files.length) {
+        currentExample = examples.length - 1;
+        saveExampleCarousel();
+        renderExampleCarousel();
+        showToast("Ejemplos agregados al carrusel");
+      }
+    });
+    reader.readAsDataURL(file);
+  });
+
+  exampleImages.value = "";
+});
+
+prevExample?.addEventListener("click", () => {
+  if (!examples.length) return;
+  currentExample = (currentExample - 1 + examples.length) % examples.length;
+  renderExampleCarousel();
+});
+
+nextExample?.addEventListener("click", () => {
+  if (!examples.length) return;
+  currentExample = (currentExample + 1) % examples.length;
+  renderExampleCarousel();
+});
+
+removeExample?.addEventListener("click", () => {
+  if (!examples.length) return;
+  examples.splice(currentExample, 1);
+  currentExample = Math.max(0, currentExample - 1);
+  saveExampleCarousel();
+  renderExampleCarousel();
+  showToast("Ejemplo quitado");
 });
 
 document.querySelectorAll(".checklist input").forEach((checkbox) => {
@@ -455,11 +280,21 @@ sellerTest?.addEventListener("submit", (event) => {
   const data = new FormData(sellerTest);
   const totalQuestions = 10;
   let score = 0;
+  const missed = [];
+
+  sellerTest.querySelectorAll("fieldset").forEach((fieldset) => {
+    fieldset.classList.remove("answered-ok", "answered-bad");
+  });
 
   for (let index = 1; index <= totalQuestions; index += 1) {
-    score += Number(data.get(`q${index}`) || 0);
+    const value = Number(data.get(`q${index}`) || 0);
+    score += value;
+    const fieldset = sellerTest.querySelector(`[name="q${index}"]`)?.closest("fieldset");
+    fieldset?.classList.add(value ? "answered-ok" : "answered-bad");
+    if (!value) missed.push({ index, explanation: quizExplanations[index - 1] });
   }
 
+  const sellerName = String(data.get("sellerName") || "Vendedor").trim();
   const written = String(data.get("written") || "").toLowerCase();
   const hasGoodWritten =
     written.includes("perfecto") &&
@@ -468,28 +303,70 @@ sellerTest?.addEventListener("submit", (event) => {
     (written.includes("opciones") || written.includes("contra entrega") || written.includes("anticipado"));
 
   const percentage = Math.round((score / totalQuestions) * 100);
-  const message =
-    percentage >= 80
-      ? "Muy bien. Maneja el método y puede aplicarlo en WhatsApp."
-      : percentage >= 60
-        ? "Va bien, pero debe repasar el cierre con envío y las preguntas clave."
-        : "Debe reforzar el Método Núcleo antes de atender conversaciones reales.";
+  const status = percentage >= 80 ? "Aprobado" : percentage >= 60 ? "Debe reforzar" : "Repetir capacitación";
+  const missedHtml = missed.length
+    ? `<ul>${missed.map((item) => `<li>Pregunta ${item.index}: ${item.explanation}</li>`).join("")}</ul>`
+    : "<p>Sin preguntas por repasar.</p>";
 
   quizResult.innerHTML = `
-    <strong>Resultado: ${score}/${totalQuestions} respuestas correctas (${percentage}%).</strong>
-    <p>${message}</p>
-    <p><strong>Revisión de la respuesta escrita:</strong> ${
+    <strong>${sellerName}: ${status}</strong>
+    <p>Resultado: ${score}/${totalQuestions} respuestas correctas (${percentage}%).</p>
+    <p><strong>Respuesta escrita:</strong> ${
       hasGoodWritten
         ? "Incluye señales correctas de la frase oficial de envío."
-        : "Revisa que incluya precio, zona, envío y opciones de pago."
+        : "Revisar: debe incluir precio, zona, envío y opciones de pago."
     }</p>
+    <p><strong>Qué debe repasar:</strong></p>
+    ${missedHtml}
   `;
 });
 
+resetTest?.addEventListener("click", () => {
+  sellerTest?.reset();
+  quizResult.innerHTML = "";
+  sellerTest?.querySelectorAll("fieldset").forEach((fieldset) => {
+    fieldset.classList.remove("answered-ok", "answered-bad");
+  });
+});
+
 nextScenario?.addEventListener("click", () => {
-  currentScenario = (currentScenario + 1) % updatedRoleScenarios.length;
+  currentScenario = (currentScenario + 1) % roleScenarios.length;
   renderScenario();
 });
+
+function scrollToModule(id) {
+  const target = document.querySelector(`#${id}`);
+  target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  setActiveModule(id);
+}
+
+function setActiveModule(id) {
+  document.querySelectorAll(".agenda-pill").forEach((pill) => {
+    pill.classList.toggle("active", pill.dataset.target === id);
+  });
+
+  document.querySelectorAll(".module-link").forEach((link) => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+  });
+
+  const index = moduleIds.indexOf(id);
+  if (moduleProgress && index >= 0) moduleProgress.textContent = `${index + 1}/${moduleIds.length}`;
+}
+
+function observeSections() {
+  const sections = moduleIds.map((id) => document.querySelector(`#${id}`)).filter(Boolean);
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActiveModule(visible.target.id);
+    },
+    { rootMargin: "-35% 0px -50% 0px", threshold: [0.1, 0.35, 0.6] },
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
 
 function updateScore() {
   const checks = [...document.querySelectorAll(".checklist input")];
@@ -524,30 +401,35 @@ function showToast(message) {
 }
 
 function renderScenario() {
-  if (!clientMessage || !answerOptions || !gameFeedback) return;
+  if (!chatThread || !answerOptions || !gameFeedback) return;
 
-  const scenario = updatedRoleScenarios[currentScenario];
-  clientMessage.textContent = `Cliente: ${scenario.client}`;
+  const scenario = roleScenarios[currentScenario];
+  chatThread.innerHTML = "";
+  addChatBubble("customer", scenario.client);
   answerOptions.innerHTML = "";
   gameFeedback.textContent = "Elige la mejor respuesta del vendedor.";
+  nextScenario.disabled = true;
 
   scenario.options.forEach((option) => {
     const button = document.createElement("button");
     button.className = "answer-option";
     button.type = "button";
     button.textContent = option.text;
-    button.addEventListener("click", () => chooseAnswer(button, option));
+    button.addEventListener("click", () => chooseAnswer(button, option, scenario));
     answerOptions.appendChild(button);
   });
 }
 
-function chooseAnswer(selectedButton, selectedOption) {
+function chooseAnswer(selectedButton, selectedOption, scenario) {
   const buttons = [...answerOptions.querySelectorAll(".answer-option")];
   buttons.forEach((button) => {
     button.disabled = true;
-    const option = updatedRoleScenarios[currentScenario].options.find((item) => item.text === button.textContent);
+    const option = scenario.options.find((item) => item.text === button.textContent);
     if (option?.correct) button.classList.add("correct");
   });
+
+  addChatBubble("seller", selectedOption.text);
+  addChatBubble("customer", selectedOption.correct ? scenario.followup : "No entiendo bien. ¿Me confirmas?");
 
   if (selectedOption.correct) {
     roleGameScore += 1;
@@ -558,29 +440,47 @@ function chooseAnswer(selectedButton, selectedOption) {
 
   gameScore.textContent = roleGameScore;
   gameFeedback.textContent = selectedOption.feedback;
+  nextScenario.disabled = false;
 }
 
-function addPreview(grid, src) {
-  const preview = document.createElement("figure");
-  preview.className = "preview";
-  preview.innerHTML = `
-    <img src="${src}" alt="Ejemplo real cargado" />
-    <button class="remove-image" type="button" aria-label="Quitar imagen">x</button>
+function addChatBubble(type, text) {
+  const bubble = document.createElement("div");
+  bubble.className = `chat-bubble ${type}`;
+  bubble.innerHTML = `<span>${type === "customer" ? "Cliente" : "Vendedor"}</span>${escapeHtml(text)}`;
+  chatThread.appendChild(bubble);
+  chatThread.scrollTop = chatThread.scrollHeight;
+}
+
+function renderExampleCarousel() {
+  if (!exampleSlide || !exampleCounter) return;
+
+  if (!examples.length) {
+    exampleSlide.innerHTML = `
+      <div class="empty-slide">
+        <strong>Aún no hay ejemplos cargados.</strong>
+        <span>Sube capturas para crear el carrusel de análisis.</span>
+      </div>
+    `;
+    exampleCounter.textContent = "0/0";
+    removeExample.disabled = true;
+    return;
+  }
+
+  const example = examples[currentExample];
+  exampleSlide.innerHTML = `
+    <img src="${example.src}" alt="Ejemplo real de conversación" />
+    <figcaption>
+      <strong>${escapeHtml(example.type)}</strong>
+      <span>${escapeHtml(example.note)}</span>
+      <small>Cargado: ${escapeHtml(example.date)}</small>
+    </figcaption>
   `;
-  grid.appendChild(preview);
+  exampleCounter.textContent = `${currentExample + 1}/${examples.length}`;
+  removeExample.disabled = false;
 }
 
-function saveImages(card) {
-  const images = [...card.querySelectorAll(".preview img")].map((image) => image.src);
-  setSavedImages(`fatto-${card.dataset.errorId}`, images);
-}
-
-function loadImages() {
-  document.querySelectorAll(".error-card").forEach((card) => {
-    const saved = getSavedImages(`fatto-${card.dataset.errorId}`);
-    const grid = card.querySelector(".preview-grid");
-    saved.forEach((src) => addPreview(grid, src));
-  });
+function saveExampleCarousel() {
+  setSavedImages("fatto-example-carousel", examples);
 }
 
 function loadProductImages() {
@@ -606,10 +506,20 @@ function setSavedImages(key, images) {
   try {
     localStorage.setItem(key, JSON.stringify(images));
   } catch {
-    showToast("Imagen cargada para esta sesión");
+    showToast("La imagen es muy pesada para guardarse en este navegador");
   }
 }
 
-loadImages();
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+observeSections();
 loadProductImages();
+renderExampleCarousel();
 renderScenario();
