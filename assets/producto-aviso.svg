@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="Aviso o banner">
+  <rect width="900" height="520" fill="#f8f6fb"/>
+  <rect x="104" y="116" width="692" height="230" rx="22" fill="#292929"/>
+  <rect x="134" y="146" width="632" height="170" rx="16" fill="#fff"/>
+  <path d="M134 146h158v170H134z" fill="#ec1c62"/>
+  <path d="M292 146h158v170H292z" fill="#f8aa00"/>
+  <path d="M450 146h158v170H450z" fill="#5a2d83"/>
+  <path d="M608 146h158v170H608z" fill="#19ad45"/>
+  <text x="450" y="254" text-anchor="middle" font-family="Arial, sans-serif" font-size="60" font-weight="900" fill="#fff">AVISO</text>
+  <rect x="168" y="346" width="28" height="112" fill="#292929"/>
+  <rect x="704" y="346" width="28" height="112" fill="#292929"/>
+  <rect x="118" y="458" width="132" height="26" rx="13" fill="#292929"/>
+  <rect x="654" y="458" width="132" height="26" rx="13" fill="#292929"/>
+</svg>

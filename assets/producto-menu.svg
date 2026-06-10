@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="Menú para restaurante">
+  <rect width="900" height="520" fill="#f8f6fb"/>
+  <rect x="218" y="62" width="464" height="396" rx="24" fill="#fff" stroke="#dfe3ec" stroke-width="6"/>
+  <rect x="250" y="94" width="400" height="82" rx="18" fill="#292929"/>
+  <text x="450" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="900" fill="#fff">MENÚ</text>
+  <circle cx="316" cy="238" r="38" fill="#ec1c62"/>
+  <rect x="376" y="216" width="214" height="18" rx="9" fill="#292929"/>
+  <rect x="376" y="250" width="166" height="16" rx="8" fill="#a0a8b5"/>
+  <circle cx="316" cy="334" r="38" fill="#f8aa00"/>
+  <rect x="376" y="312" width="214" height="18" rx="9" fill="#292929"/>
+  <rect x="376" y="346" width="166" height="16" rx="8" fill="#a0a8b5"/>
+  <rect x="250" y="404" width="400" height="18" rx="9" fill="#19ad45"/>
+</svg>
