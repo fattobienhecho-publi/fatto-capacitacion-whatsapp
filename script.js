@@ -9,6 +9,9 @@ const gameFeedback = document.querySelector("#gameFeedback");
 const gameScore = document.querySelector("#gameScore");
 const nextScenario = document.querySelector("#nextScenario");
 const moduleProgress = document.querySelector("#moduleProgress");
+const moduleToggle = document.querySelector("#moduleToggle");
+const moduleMap = document.querySelector("#moduleMap");
+const closeModuleMap = document.querySelector("#closeModuleMap");
 const exampleImages = document.querySelector("#exampleImages");
 const exampleType = document.querySelector("#exampleType");
 const exampleNote = document.querySelector("#exampleNote");
@@ -189,7 +192,27 @@ document.querySelectorAll(".module-link").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
     scrollToModule(link.getAttribute("href").replace("#", ""));
+    closeProgressPanel();
   });
+});
+
+moduleToggle?.addEventListener("click", () => {
+  const isOpen = moduleMap?.classList.toggle("open");
+  moduleToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+  moduleMap?.setAttribute("aria-hidden", String(!isOpen));
+});
+
+closeModuleMap?.addEventListener("click", closeProgressPanel);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeProgressPanel();
+});
+
+document.addEventListener("click", (event) => {
+  if (!moduleMap?.classList.contains("open")) return;
+  const target = event.target;
+  if (moduleMap.contains(target) || moduleToggle?.contains(target)) return;
+  closeProgressPanel();
 });
 
 document.addEventListener("click", async (event) => {
@@ -351,6 +374,12 @@ function setActiveModule(id) {
 
   const index = moduleIds.indexOf(id);
   if (moduleProgress && index >= 0) moduleProgress.textContent = `${index + 1}/${moduleIds.length}`;
+}
+
+function closeProgressPanel() {
+  moduleMap?.classList.remove("open");
+  moduleToggle?.setAttribute("aria-expanded", "false");
+  moduleMap?.setAttribute("aria-hidden", "true");
 }
 
 function observeSections() {

@@ -59,9 +59,21 @@
         <button class="agenda-pill" data-target="test">Test</button>
       </section>
 
-      <aside class="module-map" aria-label="Avance de la capacitación">
-        <strong>Avance</strong>
-        <span id="moduleProgress">1/10</span>
+      <button
+        class="module-toggle"
+        id="moduleToggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="moduleMap"
+      >
+        Avance <span id="moduleProgress">1/10</span>
+      </button>
+
+      <aside class="module-map" id="moduleMap" aria-label="Avance de la capacitación" aria-hidden="true">
+        <div class="module-map-head">
+          <strong>Avance</strong>
+          <button id="closeModuleMap" type="button" aria-label="Cerrar avance">×</button>
+        </div>
         <a class="module-link active" href="#agenda">Agenda</a>
         <a class="module-link" href="#errores">Errores</a>
         <a class="module-link" href="#metodo">Método</a>
