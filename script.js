@@ -223,6 +223,48 @@ document.addEventListener("click", async (event) => {
   showToast("Respuesta copiada");
 });
 
+document.querySelectorAll("[data-edit-key]").forEach((field) => {
+  const saved = localStorage.getItem(`fatto-tool-${field.dataset.editKey}`);
+  if (saved) field.innerText = saved;
+
+  field.addEventListener("input", () => {
+    localStorage.setItem(`fatto-tool-${field.dataset.editKey}`, field.innerText.trim());
+  });
+
+  field.addEventListener("blur", () => {
+    showToast("Cambio guardado");
+  });
+});
+
+document.addEventListener("click", async (event) => {
+  const copyTargetButton = event.target.closest("[data-copy-target]");
+  if (!copyTargetButton) return;
+
+  const field = document.querySelector(`[data-edit-key="${copyTargetButton.dataset.copyTarget}"]`);
+  const text = field?.innerText.trim();
+  if (!text) {
+    showToast("No hay texto para copiar");
+    return;
+  }
+
+  await copyText(text);
+  showToast("Prompt copiado");
+});
+
+document.addEventListener("click", (event) => {
+  const openTargetButton = event.target.closest("[data-open-target]");
+  if (!openTargetButton) return;
+
+  const field = document.querySelector(`[data-edit-key="${openTargetButton.dataset.openTarget}"]`);
+  const url = field?.innerText.trim();
+  if (!url || !/^https?:\/\//i.test(url)) {
+    showToast("Pega primero un link que empiece por http");
+    return;
+  }
+
+  window.open(url, "_blank", "noopener");
+});
+
 document.querySelectorAll(".product-upload input").forEach((input) => {
   input.addEventListener("change", () => {
     const card = input.closest(".product-guide-card");
